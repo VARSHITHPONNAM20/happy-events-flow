@@ -1,17 +1,31 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Search, Menu, X, Ticket } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Search, Menu, X, Ticket, LogOut, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/hooks/useAuth";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, signOut, loading } = useAuth();
 
   const links = [
     { to: "/", label: "Home" },
     { to: "/events", label: "Events" },
   ];
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/");
+  };
 
   return (
     <nav className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
@@ -43,9 +57,28 @@ const Navbar = () => {
               <Search className="h-4 w-4" />
             </Button>
           </Link>
-          <Button variant="default" size="sm">
-            Sign In
-          </Button>
+          {!loading && (
+            user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm" className="gap-2">
+                    <User className="h-4 w-4" />
+                    {user.user_metadata?.full_name || user.email?.split("@")[0]}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={handleSignOut} className="gap-2 cursor-pointer">
+                    <LogOut className="h-4 w-4" />
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link to="/auth">
+                <Button variant="default" size="sm">Sign In</Button>
+              </Link>
+            )
+          )}
         </div>
 
         {/* Mobile toggle */}
@@ -75,9 +108,15 @@ const Navbar = () => {
               {link.label}
             </Link>
           ))}
-          <Button variant="default" size="sm" className="w-full">
-            Sign In
-          </Button>
+          {user ? (
+            <Button variant="outline" size="sm" className="w-full gap-2" onClick={handleSignOut}>
+              <LogOut className="h-4 w-4" /> Sign Out
+            </Button>
+          ) : (
+            <Link to="/auth" onClick={() => setMobileOpen(false)}>
+              <Button variant="default" size="sm" className="w-full">Sign In</Button>
+            </Link>
+          )}
         </div>
       )}
     </nav>
