@@ -113,9 +113,14 @@ const Navbar = () => {
             </Link>
           ))}
           {user ? (
-            <Button variant="outline" size="sm" className="w-full gap-2" onClick={handleSignOut}>
-              <LogOut className="h-4 w-4" /> Sign Out
-            </Button>
+            <>
+              <Button variant="ghost" size="sm" className="w-full gap-2 justify-start" onClick={() => { navigate("/settings"); setMobileOpen(false); }}>
+                <Settings className="h-4 w-4" /> Settings
+              </Button>
+              <Button variant="outline" size="sm" className="w-full gap-2" onClick={handleSignOut}>
+                <LogOut className="h-4 w-4" /> Sign Out
+              </Button>
+            </>
           ) : (
             <Link to="/auth" onClick={() => setMobileOpen(false)}>
               <Button variant="default" size="sm" className="w-full">Sign In</Button>
