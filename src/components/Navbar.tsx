@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Search, Menu, X, Ticket, LogOut, User, Settings } from "lucide-react";
+import { Search, Menu, X, Ticket, LogOut, User, Settings, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
@@ -42,10 +42,11 @@ const Navbar = () => {
               key={link.to}
               to={link.to}
               className={cn(
-                "text-sm font-medium transition-colors hover:text-accent",
+                "text-sm font-medium transition-colors hover:text-accent flex items-center gap-1.5",
                 location.pathname === link.to ? "text-accent" : "text-muted-foreground"
               )}
             >
+              {link.label === "Home" && <Home className="h-4 w-4 text-black" />}
               {link.label}
             </Link>
           ))}
