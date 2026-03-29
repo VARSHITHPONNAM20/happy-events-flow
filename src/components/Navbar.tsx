@@ -18,7 +18,7 @@ const Navbar = () => {
   const { user, signOut, loading } = useAuth();
 
   const links = [
-    { to: "/", label: "Home" },
+    { to: "/home", label: "Home" },
     { to: "/events", label: "Events" },
   ];
 
