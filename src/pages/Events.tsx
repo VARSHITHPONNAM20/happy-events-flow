@@ -36,23 +36,24 @@ const Events = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-gray-950 flex flex-col">
       <Navbar />
 
       <main className="flex-1">
         {/* Header */}
-        <div className="bg-primary py-16">
+        <div className="bg-gradient-to-r from-gray-950 via-gray-900 to-gray-950 py-16 border-b border-yellow-600/20">
           <div className="container">
-            <h1 className="text-3xl sm:text-4xl font-bold text-primary-foreground mb-6">
+            <h1 className="text-3xl sm:text-4xl font-bold text-yellow-400 mb-2">
               Discover Events
             </h1>
+            <p className="text-gray-400 mb-6">Find your next unforgettable experience</p>
             <div className="relative max-w-md">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-yellow-500/60" />
               <Input
                 placeholder="Search events or locations..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="pl-10 bg-card border-border"
+                className="pl-10 bg-gray-900 border-yellow-600/20 text-white placeholder:text-gray-500 focus-visible:ring-yellow-500/40"
               />
             </div>
           </div>
@@ -64,7 +65,7 @@ const Events = () => {
           <div className="mt-8">
             {filtered.length === 0 ? (
               <div className="text-center py-20">
-                <p className="text-muted-foreground text-lg">No events found matching your criteria.</p>
+                <p className="text-gray-400 text-lg">No events found matching your criteria.</p>
               </div>
             ) : (
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
