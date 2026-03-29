@@ -46,7 +46,7 @@ const Navbar = () => {
                 location.pathname === link.to ? "text-accent" : "text-muted-foreground"
               )}
             >
-              {link.label === "Home" && <Home className="h-4 w-4 text-black" />}
+              {link.label === "Home" && <Home className="h-4 w-4 text-yellow-500" />}
               {link.label}
             </Link>
           ))}
