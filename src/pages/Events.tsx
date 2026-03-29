@@ -65,7 +65,7 @@ const Events = () => {
           <div className="mt-8">
             {filtered.length === 0 ? (
               <div className="text-center py-20">
-                <p className="text-muted-foreground text-lg">No events found matching your criteria.</p>
+                <p className="text-gray-400 text-lg">No events found matching your criteria.</p>
               </div>
             ) : (
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
