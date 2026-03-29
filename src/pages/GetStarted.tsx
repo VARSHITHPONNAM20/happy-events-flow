@@ -94,7 +94,7 @@ const GetStarted = () => {
             <Button
               size="lg"
               variant="outline"
-              className="border-red-500/30 text-white hover:bg-red-600/10 text-lg px-10 py-6"
+              className="border-red-500/30 text-red-400 hover:bg-red-600/10 text-lg px-10 py-6"
             >
               Sign In
             </Button>
