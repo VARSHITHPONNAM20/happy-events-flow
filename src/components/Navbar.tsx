@@ -19,6 +19,7 @@ const Navbar = () => {
 
   const links = [
     { to: "/home", label: "Home" },
+    { to: "/movies", label: "Movies" },
     { to: "/events", label: "Events" },
   ];
 
