@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Search, Menu, X, Ticket, LogOut, User, Settings, Home } from "lucide-react";
+import { Search, Menu, X, Ticket, LogOut, User, Settings, Home, Film } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
@@ -19,6 +19,7 @@ const Navbar = () => {
 
   const links = [
     { to: "/home", label: "Home" },
+    { to: "/movies", label: "Movies" },
     { to: "/events", label: "Events" },
   ];
 
@@ -47,6 +48,7 @@ const Navbar = () => {
               )}
             >
               {link.label === "Home" && <Home className="h-4 w-4 text-black" />}
+              {link.label === "Movies" && <Film className="h-4 w-4" />}
               {link.label}
             </Link>
           ))}
