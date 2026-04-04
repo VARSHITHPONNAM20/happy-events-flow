@@ -48,6 +48,7 @@ const Navbar = () => {
               )}
             >
               {link.label === "Home" && <Home className="h-4 w-4 text-black" />}
+              {link.label === "Movies" && <Film className="h-4 w-4" />}
               {link.label}
             </Link>
           ))}
