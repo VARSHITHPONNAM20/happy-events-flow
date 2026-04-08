@@ -32,6 +32,18 @@ interface Booking {
   ticket_tier?: { name: string };
 }
 
+interface MovieBooking {
+  id: string;
+  movie_id: string;
+  movie_title: string;
+  show_time: string;
+  show_format: string;
+  seats: string[];
+  total_price: number;
+  status: string;
+  created_at: string;
+}
+
 const Settings = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();

@@ -187,10 +187,11 @@ const MovieDetail = () => {
                       <Button
                         size="lg"
                         onClick={handleConfirmBooking}
+                        disabled={bookingLoading}
                         className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg"
                       >
                         <Ticket className="mr-2 h-4 w-4" />
-                        Confirm Booking
+                        {bookingLoading ? "Booking..." : "Confirm Booking"}
                       </Button>
                     </motion.div>
                   )}
