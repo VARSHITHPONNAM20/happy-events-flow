@@ -73,8 +73,8 @@ const Settings = () => {
     setLoadingBookings(true);
     const [eventsRes, moviesRes] = await Promise.all([
       supabase
-        .from("bookings")
-        .select("*, event:events(title, date, venue, location, image_url), ticket_tier:ticket_tiers(name)")
+        .from("event_bookings")
+        .select("*")
         .eq("user_id", user!.id)
         .order("created_at", { ascending: false }),
       supabase
@@ -84,7 +84,7 @@ const Settings = () => {
         .order("created_at", { ascending: false }),
     ]);
 
-    if (!eventsRes.error && eventsRes.data) setBookings(eventsRes.data as unknown as Booking[]);
+    if (!eventsRes.error && eventsRes.data) setBookings(eventsRes.data as unknown as EventBooking[]);
     if (!moviesRes.error && moviesRes.data) setMovieBookings(moviesRes.data as unknown as MovieBooking[]);
     setLoadingBookings(false);
   };
