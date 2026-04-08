@@ -122,6 +122,45 @@ export type Database = {
         }
         Relationships: []
       }
+      movie_bookings: {
+        Row: {
+          created_at: string
+          id: string
+          movie_id: string
+          movie_title: string
+          seats: string[]
+          show_format: string
+          show_time: string
+          status: string
+          total_price: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          movie_id: string
+          movie_title: string
+          seats: string[]
+          show_format: string
+          show_time: string
+          status?: string
+          total_price: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          movie_id?: string
+          movie_title?: string
+          seats?: string[]
+          show_format?: string
+          show_time?: string
+          status?: string
+          total_price?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
