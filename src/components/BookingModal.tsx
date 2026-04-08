@@ -16,7 +16,9 @@ interface BookingModalProps {
 const BookingModal = ({ event, open, onClose }: BookingModalProps) => {
   const [quantities, setQuantities] = useState<Record<string, number>>({});
   const [step, setStep] = useState<"select" | "confirm" | "success">("select");
+  const [bookingLoading, setBookingLoading] = useState(false);
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const updateQty = (ticketId: string, delta: number, max: number) => {
     setQuantities((prev) => {
