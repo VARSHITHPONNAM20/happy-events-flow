@@ -9,6 +9,8 @@ import Footer from "@/components/Footer";
 import SeatSelection from "@/components/SeatSelection";
 import { movies, type ShowTime } from "@/data/movies";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 
 const MovieDetail = () => {
   const { id } = useParams();
@@ -16,7 +18,9 @@ const MovieDetail = () => {
   const [selectedShow, setSelectedShow] = useState<ShowTime | null>(null);
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
   const [step, setStep] = useState<"showtime" | "seats" | "confirmed">("showtime");
+  const [bookingLoading, setBookingLoading] = useState(false);
   const { toast } = useToast();
+  const { user } = useAuth();
 
   if (!movie) {
     return (
@@ -30,7 +34,26 @@ const MovieDetail = () => {
     );
   }
 
-  const handleConfirmBooking = () => {
+  const handleConfirmBooking = async () => {
+    if (!user) {
+      toast({ title: "Please sign in", description: "You need to sign in to book tickets.", variant: "destructive" });
+      return;
+    }
+    setBookingLoading(true);
+    const { error } = await supabase.from("movie_bookings").insert({
+      user_id: user.id,
+      movie_id: movie.id,
+      movie_title: movie.title,
+      show_time: selectedShow?.time || "",
+      show_format: selectedShow?.format || "",
+      seats: selectedSeats,
+      total_price: totalPrice,
+    });
+    setBookingLoading(false);
+    if (error) {
+      toast({ title: "Booking failed", description: error.message, variant: "destructive" });
+      return;
+    }
     setStep("confirmed");
     toast({
       title: "Booking Confirmed! 🎬",
@@ -164,10 +187,11 @@ const MovieDetail = () => {
                       <Button
                         size="lg"
                         onClick={handleConfirmBooking}
+                        disabled={bookingLoading}
                         className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg"
                       >
                         <Ticket className="mr-2 h-4 w-4" />
-                        Confirm Booking
+                        {bookingLoading ? "Booking..." : "Confirm Booking"}
                       </Button>
                     </motion.div>
                   )}
