@@ -175,13 +175,13 @@ const Settings = () => {
                             </div>
                             <div className="flex-1 min-w-0">
                               <p className="font-semibold text-foreground truncate">
-                                {booking.event?.title || "Event"}
+                                {booking.event_title}
                               </p>
                               <p className="text-xs text-muted-foreground">
-                                {booking.event?.date} • {booking.event?.venue}
+                                {booking.event_date} • {booking.event_venue}
                               </p>
                               <p className="text-xs text-muted-foreground">
-                                {booking.ticket_tier?.name} × {booking.quantity}
+                                {booking.ticket_tier_name} × {booking.quantity}
                               </p>
                             </div>
                             <div className="text-right shrink-0">
