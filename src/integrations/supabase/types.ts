@@ -62,6 +62,48 @@ export type Database = {
           },
         ]
       }
+      event_bookings: {
+        Row: {
+          created_at: string
+          event_date: string
+          event_location: string
+          event_title: string
+          event_venue: string
+          id: string
+          quantity: number
+          status: string
+          ticket_tier_name: string
+          total_price: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          event_date: string
+          event_location: string
+          event_title: string
+          event_venue: string
+          id?: string
+          quantity?: number
+          status?: string
+          ticket_tier_name: string
+          total_price: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          event_date?: string
+          event_location?: string
+          event_title?: string
+          event_venue?: string
+          id?: string
+          quantity?: number
+          status?: string
+          ticket_tier_name?: string
+          total_price?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
       events: {
         Row: {
           category: string
