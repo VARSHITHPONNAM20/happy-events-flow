@@ -49,6 +49,7 @@ const Settings = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [movieBookings, setMovieBookings] = useState<MovieBooking[]>([]);
   const [loadingBookings, setLoadingBookings] = useState(true);
   const [notifications, setNotifications] = useState({
     email: true,
@@ -69,13 +70,21 @@ const Settings = () => {
 
   const fetchBookings = async () => {
     setLoadingBookings(true);
-    const { data, error } = await supabase
-      .from("bookings")
-      .select("*, event:events(title, date, venue, location, image_url), ticket_tier:ticket_tiers(name)")
-      .eq("user_id", user!.id)
-      .order("created_at", { ascending: false });
+    const [eventsRes, moviesRes] = await Promise.all([
+      supabase
+        .from("bookings")
+        .select("*, event:events(title, date, venue, location, image_url), ticket_tier:ticket_tiers(name)")
+        .eq("user_id", user!.id)
+        .order("created_at", { ascending: false }),
+      supabase
+        .from("movie_bookings")
+        .select("*")
+        .eq("user_id", user!.id)
+        .order("created_at", { ascending: false }),
+    ]);
 
-    if (!error && data) setBookings(data as unknown as Booking[]);
+    if (!eventsRes.error && eventsRes.data) setBookings(eventsRes.data as unknown as Booking[]);
+    if (!moviesRes.error && moviesRes.data) setMovieBookings(moviesRes.data as unknown as MovieBooking[]);
     setLoadingBookings(false);
   };
 
