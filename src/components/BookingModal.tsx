@@ -31,12 +31,38 @@ const BookingModal = ({ event, open, onClose }: BookingModalProps) => {
   const totalItems = Object.values(quantities).reduce((a, b) => a + b, 0);
   const totalPrice = event.tickets.reduce((sum, t) => sum + (quantities[t.id] || 0) * t.price, 0);
 
-  const handleConfirm = () => {
-    setStep("success");
-    toast({
-      title: "Booking Confirmed! 🎉",
-      description: `You've booked ${totalItems} ticket(s) for ${event.title}.`,
-    });
+  const handleConfirm = async () => {
+    if (!user) {
+      toast({ title: "Please sign in", description: "You need to be signed in to book tickets.", variant: "destructive" });
+      return;
+    }
+    setBookingLoading(true);
+    try {
+      const ticketsToBook = event.tickets.filter((t) => (quantities[t.id] || 0) > 0);
+      const inserts = ticketsToBook.map((t) => ({
+        user_id: user.id,
+        event_title: event.title,
+        event_date: event.date,
+        event_venue: event.venue,
+        event_location: event.location,
+        ticket_tier_name: t.name,
+        quantity: quantities[t.id],
+        total_price: (quantities[t.id] || 0) * t.price,
+      }));
+
+      const { error } = await supabase.from("event_bookings").insert(inserts);
+      if (error) throw error;
+
+      setStep("success");
+      toast({
+        title: "Booking Confirmed! 🎉",
+        description: `You've booked ${totalItems} ticket(s) for ${event.title}.`,
+      });
+    } catch (err: any) {
+      toast({ title: "Booking failed", description: err.message, variant: "destructive" });
+    } finally {
+      setBookingLoading(false);
+    }
   };
 
   const handleClose = () => {
