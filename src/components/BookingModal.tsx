@@ -156,10 +156,10 @@ const BookingModal = ({ event, open, onClose }: BookingModalProps) => {
             <div className="border-t border-border px-6 py-4 flex items-center justify-between">
               {step === "confirm" ? (
                 <>
-                  <Button variant="ghost" onClick={() => setStep("select")}>Back</Button>
-                  <Button onClick={handleConfirm} className="bg-accent text-accent-foreground hover:bg-accent/90">
+                  <Button variant="ghost" onClick={() => setStep("select")} disabled={bookingLoading}>Back</Button>
+                  <Button onClick={handleConfirm} disabled={bookingLoading} className="bg-accent text-accent-foreground hover:bg-accent/90">
                     <Ticket className="mr-2 h-4 w-4" />
-                    Confirm Booking
+                    {bookingLoading ? "Booking..." : "Confirm Booking"}
                   </Button>
                 </>
               ) : (

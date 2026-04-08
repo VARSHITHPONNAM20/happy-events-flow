@@ -20,16 +20,17 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 
-interface Booking {
+interface EventBooking {
   id: string;
-  event_id: string;
+  event_title: string;
+  event_date: string;
+  event_venue: string;
+  event_location: string;
+  ticket_tier_name: string;
   quantity: number;
   total_price: number;
   status: string;
   created_at: string;
-  ticket_tier_id: string;
-  event?: { title: string; date: string; venue: string; location: string; image_url: string | null };
-  ticket_tier?: { name: string };
 }
 
 interface MovieBooking {
