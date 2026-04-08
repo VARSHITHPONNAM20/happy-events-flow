@@ -49,7 +49,7 @@ const Settings = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [bookings, setBookings] = useState<EventBooking[]>([]);
   const [movieBookings, setMovieBookings] = useState<MovieBooking[]>([]);
   const [loadingBookings, setLoadingBookings] = useState(true);
   const [notifications, setNotifications] = useState({
