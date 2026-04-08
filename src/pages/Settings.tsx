@@ -138,64 +138,125 @@ const Settings = () => {
 
             {/* BOOKINGS TAB */}
             <TabsContent value="bookings">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Ticket className="h-5 w-5 text-primary" /> My Bookings
-                  </CardTitle>
-                  <CardDescription>View your previous and upcoming event bookings</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  {loadingBookings ? (
-                    <div className="space-y-3">
-                      {[1, 2, 3].map((i) => (
-                        <div key={i} className="h-20 rounded-lg bg-muted/30 animate-pulse" />
-                      ))}
-                    </div>
-                  ) : bookings.length === 0 ? (
-                    <div className="text-center py-12 space-y-3">
-                      <Ticket className="h-12 w-12 text-muted-foreground/40 mx-auto" />
-                      <p className="text-muted-foreground">No bookings yet</p>
-                      <Button variant="outline" onClick={() => navigate("/events")}>
-                        Browse Events
-                      </Button>
-                    </div>
-                  ) : (
-                    <div className="space-y-3">
-                      {bookings.map((booking) => (
-                        <div
-                          key={booking.id}
-                          className="flex items-center gap-4 p-4 rounded-lg border border-border hover:bg-muted/20 transition-colors"
-                        >
-                          <div className="h-14 w-14 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                            <Calendar className="h-6 w-6 text-primary" />
+              <div className="space-y-6">
+                {/* Event Bookings */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Ticket className="h-5 w-5 text-primary" /> Event Bookings
+                    </CardTitle>
+                    <CardDescription>Your event ticket bookings</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    {loadingBookings ? (
+                      <div className="space-y-3">
+                        {[1, 2, 3].map((i) => (
+                          <div key={i} className="h-20 rounded-lg bg-muted/30 animate-pulse" />
+                        ))}
+                      </div>
+                    ) : bookings.length === 0 ? (
+                      <div className="text-center py-8 space-y-3">
+                        <Ticket className="h-10 w-10 text-muted-foreground/40 mx-auto" />
+                        <p className="text-muted-foreground text-sm">No event bookings yet</p>
+                        <Button variant="outline" size="sm" onClick={() => navigate("/events")}>
+                          Browse Events
+                        </Button>
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        {bookings.map((booking) => (
+                          <div
+                            key={booking.id}
+                            className="flex items-center gap-4 p-4 rounded-lg border border-border hover:bg-muted/20 transition-colors"
+                          >
+                            <div className="h-14 w-14 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                              <Calendar className="h-6 w-6 text-primary" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="font-semibold text-foreground truncate">
+                                {booking.event?.title || "Event"}
+                              </p>
+                              <p className="text-xs text-muted-foreground">
+                                {booking.event?.date} • {booking.event?.venue}
+                              </p>
+                              <p className="text-xs text-muted-foreground">
+                                {booking.ticket_tier?.name} × {booking.quantity}
+                              </p>
+                            </div>
+                            <div className="text-right shrink-0">
+                              <p className="font-bold text-foreground">${booking.total_price}</p>
+                              <Badge
+                                variant={booking.status === "confirmed" ? "default" : "secondary"}
+                                className="text-xs"
+                              >
+                                {booking.status}
+                              </Badge>
+                            </div>
                           </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="font-semibold text-foreground truncate">
-                              {booking.event?.title || "Event"}
-                            </p>
-                            <p className="text-xs text-muted-foreground">
-                              {booking.event?.date} • {booking.event?.venue}
-                            </p>
-                            <p className="text-xs text-muted-foreground">
-                              {booking.ticket_tier?.name} × {booking.quantity}
-                            </p>
+                        ))}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+
+                {/* Movie Bookings */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Film className="h-5 w-5 text-primary" /> Movie Bookings
+                    </CardTitle>
+                    <CardDescription>Your movie ticket bookings</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    {loadingBookings ? (
+                      <div className="space-y-3">
+                        {[1, 2].map((i) => (
+                          <div key={i} className="h-20 rounded-lg bg-muted/30 animate-pulse" />
+                        ))}
+                      </div>
+                    ) : movieBookings.length === 0 ? (
+                      <div className="text-center py-8 space-y-3">
+                        <Film className="h-10 w-10 text-muted-foreground/40 mx-auto" />
+                        <p className="text-muted-foreground text-sm">No movie bookings yet</p>
+                        <Button variant="outline" size="sm" onClick={() => navigate("/movies")}>
+                          Browse Movies
+                        </Button>
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        {movieBookings.map((mb) => (
+                          <div
+                            key={mb.id}
+                            className="flex items-center gap-4 p-4 rounded-lg border border-border hover:bg-muted/20 transition-colors"
+                          >
+                            <div className="h-14 w-14 rounded-lg bg-accent/10 flex items-center justify-center shrink-0">
+                              <Film className="h-6 w-6 text-accent" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="font-semibold text-foreground truncate">{mb.movie_title}</p>
+                              <p className="text-xs text-muted-foreground">
+                                {mb.show_time} • {mb.show_format}
+                              </p>
+                              <p className="text-xs text-muted-foreground">
+                                Seats: {mb.seats.join(", ")}
+                              </p>
+                            </div>
+                            <div className="text-right shrink-0">
+                              <p className="font-bold text-foreground">${mb.total_price}</p>
+                              <Badge
+                                variant={mb.status === "confirmed" ? "default" : "secondary"}
+                                className="text-xs"
+                              >
+                                {mb.status}
+                              </Badge>
+                            </div>
                           </div>
-                          <div className="text-right shrink-0">
-                            <p className="font-bold text-foreground">${booking.total_price}</p>
-                            <Badge
-                              variant={booking.status === "confirmed" ? "default" : "secondary"}
-                              className="text-xs"
-                            >
-                              {booking.status}
-                            </Badge>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
+                        ))}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
             </TabsContent>
 
             {/* NOTIFICATIONS TAB */}
