@@ -16,7 +16,7 @@ import { useToast } from "@/hooks/use-toast";
 import {
   Ticket, Clock, MapPin, CreditCard, Gift, Bell, HelpCircle,
   Headphones, Mail, Phone, MessageCircle, ChevronRight, Star,
-  Calendar, DollarSign, Shield, User, Settings as SettingsIcon,
+  Calendar, DollarSign, Shield, User, Settings as SettingsIcon, Film,
 } from "lucide-react";
 import { motion } from "framer-motion";
 
