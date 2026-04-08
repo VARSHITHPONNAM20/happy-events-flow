@@ -4,6 +4,8 @@ import { X, Minus, Plus, Check, Ticket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { type Event, type TicketTier } from "@/data/events";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 
 interface BookingModalProps {
   event: Event;
@@ -14,7 +16,9 @@ interface BookingModalProps {
 const BookingModal = ({ event, open, onClose }: BookingModalProps) => {
   const [quantities, setQuantities] = useState<Record<string, number>>({});
   const [step, setStep] = useState<"select" | "confirm" | "success">("select");
+  const [bookingLoading, setBookingLoading] = useState(false);
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const updateQty = (ticketId: string, delta: number, max: number) => {
     setQuantities((prev) => {
@@ -27,12 +31,38 @@ const BookingModal = ({ event, open, onClose }: BookingModalProps) => {
   const totalItems = Object.values(quantities).reduce((a, b) => a + b, 0);
   const totalPrice = event.tickets.reduce((sum, t) => sum + (quantities[t.id] || 0) * t.price, 0);
 
-  const handleConfirm = () => {
-    setStep("success");
-    toast({
-      title: "Booking Confirmed! 🎉",
-      description: `You've booked ${totalItems} ticket(s) for ${event.title}.`,
-    });
+  const handleConfirm = async () => {
+    if (!user) {
+      toast({ title: "Please sign in", description: "You need to be signed in to book tickets.", variant: "destructive" });
+      return;
+    }
+    setBookingLoading(true);
+    try {
+      const ticketsToBook = event.tickets.filter((t) => (quantities[t.id] || 0) > 0);
+      const inserts = ticketsToBook.map((t) => ({
+        user_id: user.id,
+        event_title: event.title,
+        event_date: event.date,
+        event_venue: event.venue,
+        event_location: event.location,
+        ticket_tier_name: t.name,
+        quantity: quantities[t.id],
+        total_price: (quantities[t.id] || 0) * t.price,
+      }));
+
+      const { error } = await supabase.from("event_bookings").insert(inserts);
+      if (error) throw error;
+
+      setStep("success");
+      toast({
+        title: "Booking Confirmed! 🎉",
+        description: `You've booked ${totalItems} ticket(s) for ${event.title}.`,
+      });
+    } catch (err: any) {
+      toast({ title: "Booking failed", description: err.message, variant: "destructive" });
+    } finally {
+      setBookingLoading(false);
+    }
   };
 
   const handleClose = () => {
@@ -126,10 +156,10 @@ const BookingModal = ({ event, open, onClose }: BookingModalProps) => {
             <div className="border-t border-border px-6 py-4 flex items-center justify-between">
               {step === "confirm" ? (
                 <>
-                  <Button variant="ghost" onClick={() => setStep("select")}>Back</Button>
-                  <Button onClick={handleConfirm} className="bg-accent text-accent-foreground hover:bg-accent/90">
+                  <Button variant="ghost" onClick={() => setStep("select")} disabled={bookingLoading}>Back</Button>
+                  <Button onClick={handleConfirm} disabled={bookingLoading} className="bg-accent text-accent-foreground hover:bg-accent/90">
                     <Ticket className="mr-2 h-4 w-4" />
-                    Confirm Booking
+                    {bookingLoading ? "Booking..." : "Confirm Booking"}
                   </Button>
                 </>
               ) : (

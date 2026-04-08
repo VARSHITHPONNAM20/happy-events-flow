@@ -20,16 +20,17 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 
-interface Booking {
+interface EventBooking {
   id: string;
-  event_id: string;
+  event_title: string;
+  event_date: string;
+  event_venue: string;
+  event_location: string;
+  ticket_tier_name: string;
   quantity: number;
   total_price: number;
   status: string;
   created_at: string;
-  ticket_tier_id: string;
-  event?: { title: string; date: string; venue: string; location: string; image_url: string | null };
-  ticket_tier?: { name: string };
 }
 
 interface MovieBooking {
@@ -48,7 +49,7 @@ const Settings = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [bookings, setBookings] = useState<EventBooking[]>([]);
   const [movieBookings, setMovieBookings] = useState<MovieBooking[]>([]);
   const [loadingBookings, setLoadingBookings] = useState(true);
   const [notifications, setNotifications] = useState({
@@ -72,8 +73,8 @@ const Settings = () => {
     setLoadingBookings(true);
     const [eventsRes, moviesRes] = await Promise.all([
       supabase
-        .from("bookings")
-        .select("*, event:events(title, date, venue, location, image_url), ticket_tier:ticket_tiers(name)")
+        .from("event_bookings")
+        .select("*")
         .eq("user_id", user!.id)
         .order("created_at", { ascending: false }),
       supabase
@@ -83,7 +84,7 @@ const Settings = () => {
         .order("created_at", { ascending: false }),
     ]);
 
-    if (!eventsRes.error && eventsRes.data) setBookings(eventsRes.data as unknown as Booking[]);
+    if (!eventsRes.error && eventsRes.data) setBookings(eventsRes.data as unknown as EventBooking[]);
     if (!moviesRes.error && moviesRes.data) setMovieBookings(moviesRes.data as unknown as MovieBooking[]);
     setLoadingBookings(false);
   };
@@ -174,13 +175,13 @@ const Settings = () => {
                             </div>
                             <div className="flex-1 min-w-0">
                               <p className="font-semibold text-foreground truncate">
-                                {booking.event?.title || "Event"}
+                                {booking.event_title}
                               </p>
                               <p className="text-xs text-muted-foreground">
-                                {booking.event?.date} • {booking.event?.venue}
+                                {booking.event_date} • {booking.event_venue}
                               </p>
                               <p className="text-xs text-muted-foreground">
-                                {booking.ticket_tier?.name} × {booking.quantity}
+                                {booking.ticket_tier_name} × {booking.quantity}
                               </p>
                             </div>
                             <div className="text-right shrink-0">
