@@ -4,6 +4,12 @@ import movie3 from "@/assets/movie-3.jpg";
 import movie4 from "@/assets/movie-4.jpg";
 import movie5 from "@/assets/movie-5.jpg";
 import movie6 from "@/assets/movie-6.jpg";
+import movieTelugu1 from "@/assets/movie-telugu-1.jpg";
+import movieTelugu2 from "@/assets/movie-telugu-2.jpg";
+import movieTelugu3 from "@/assets/movie-telugu-3.jpg";
+import movieTelugu4 from "@/assets/movie-telugu-4.jpg";
+import movieTelugu5 from "@/assets/movie-telugu-5.jpg";
+import movieTelugu6 from "@/assets/movie-telugu-6.jpg";
 
 export interface ShowTime {
   id: string;
