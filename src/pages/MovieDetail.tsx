@@ -136,23 +136,76 @@ const MovieDetail = () => {
               className="lg:col-span-2"
             >
               {step === "confirmed" ? (
-                <div className="rounded-xl border border-border bg-card p-8 text-center space-y-4">
-                  <div className="mx-auto h-16 w-16 rounded-full bg-green-500/10 flex items-center justify-center">
-                    <Ticket className="h-8 w-8 text-green-500" />
-                  </div>
-                  <h2 className="text-2xl font-bold text-card-foreground">Booking Confirmed!</h2>
-                  <p className="text-muted-foreground">
-                    <strong>{movie.title}</strong> — {selectedShow?.time} ({selectedShow?.format})
-                  </p>
-                  <p className="text-muted-foreground">
-                    Seats: <strong>{selectedSeats.join(", ")}</strong>
-                  </p>
-                  <p className="text-xl font-bold text-accent">Total: ${totalPrice}</p>
-                  <Button onClick={() => { setStep("showtime"); setSelectedShow(null); setSelectedSeats([]); }}
-                    className="bg-primary text-primary-foreground hover:bg-primary/90">
-                    Book Another
-                  </Button>
-                </div>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8, rotateX: 40 }}
+                  animate={{ opacity: 1, scale: 1, rotateX: 0 }}
+                  transition={{ duration: 0.7, type: "spring", bounce: 0.4 }}
+                  className="rounded-xl border border-amber-500/30 bg-gradient-to-b from-gray-900 to-black p-10 text-center space-y-5 overflow-hidden relative"
+                  style={{ perspective: "1000px" }}
+                >
+                  {/* Decorative glow */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-red-600/10 via-amber-500/10 to-red-600/10 pointer-events-none" />
+                  
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: 0.3, type: "spring", bounce: 0.5 }}
+                    className="mx-auto h-20 w-20 rounded-full bg-gradient-to-br from-amber-400 to-red-600 flex items-center justify-center shadow-lg shadow-amber-500/30"
+                  >
+                    <Ticket className="h-10 w-10 text-white" />
+                  </motion.div>
+
+                  <motion.h2
+                    initial={{ opacity: 0, y: 30, rotateX: 60 }}
+                    animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                    transition={{ delay: 0.4, duration: 0.6 }}
+                    className="text-5xl font-black tracking-tight relative"
+                    style={{
+                      background: "linear-gradient(135deg, #FBBF24, #DC2626, #FBBF24)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      textShadow: "none",
+                      filter: "drop-shadow(0 4px 8px rgba(251, 191, 36, 0.3)) drop-shadow(0 8px 16px rgba(220, 38, 38, 0.2))",
+                    }}
+                  >
+                    Thank You!
+                  </motion.h2>
+
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.6 }}
+                    className="text-lg text-amber-400 font-semibold"
+                  >
+                    🎬 Booking Confirmed
+                  </motion.p>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.7 }}
+                    className="space-y-2"
+                  >
+                    <p className="text-gray-300">
+                      <strong className="text-white">{movie.title}</strong> — {selectedShow?.time} ({selectedShow?.format})
+                    </p>
+                    <p className="text-gray-400">
+                      Seats: <strong className="text-amber-400">{selectedSeats.join(", ")}</strong>
+                    </p>
+                    <p className="text-2xl font-extrabold text-amber-400 mt-3">Total: ${totalPrice}</p>
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.9 }}
+                  >
+                    <Button onClick={() => { setStep("showtime"); setSelectedShow(null); setSelectedSeats([]); }}
+                      className="bg-red-600 hover:bg-red-700 text-white font-bold px-8 py-3 rounded-full shadow-lg shadow-red-600/30 mt-2">
+                      Book Another
+                    </Button>
+                  </motion.div>
+                </motion.div>
               ) : step === "seats" ? (
                 <div className="space-y-6">
                   <div className="flex items-center justify-between">

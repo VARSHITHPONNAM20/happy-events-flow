@@ -104,19 +104,68 @@ const BookingModal = ({ event, open, onClose }: BookingModalProps) => {
 
           <div className="px-6 py-5 max-h-[70vh] overflow-y-auto">
             {step === "success" ? (
-              <div className="text-center py-8 space-y-4">
-                <div className="mx-auto h-16 w-16 rounded-full bg-success/10 flex items-center justify-center">
-                  <Check className="h-8 w-8 text-success" />
-                </div>
-                <h4 className="text-xl font-bold text-card-foreground">You're all set!</h4>
-                <p className="text-muted-foreground text-sm">
-                  {totalItems} ticket(s) for <strong>{event.title}</strong> have been booked.
-                  Check your email for confirmation details.
-                </p>
-                <Button onClick={handleClose} className="bg-accent text-accent-foreground hover:bg-accent/90 mt-4">
-                  Done
-                </Button>
-              </div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8, rotateX: 40 }}
+                animate={{ opacity: 1, scale: 1, rotateX: 0 }}
+                transition={{ duration: 0.7, type: "spring", bounce: 0.4 }}
+                className="text-center py-8 space-y-5 relative overflow-hidden"
+                style={{ perspective: "1000px" }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-red-600/5 via-amber-500/10 to-red-600/5 pointer-events-none" />
+
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.3, type: "spring", bounce: 0.5 }}
+                  className="mx-auto h-20 w-20 rounded-full bg-gradient-to-br from-amber-400 to-red-600 flex items-center justify-center shadow-lg shadow-amber-500/30"
+                >
+                  <Check className="h-10 w-10 text-white" />
+                </motion.div>
+
+                <motion.h4
+                  initial={{ opacity: 0, y: 30, rotateX: 60 }}
+                  animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                  transition={{ delay: 0.4, duration: 0.6 }}
+                  className="text-4xl font-black tracking-tight"
+                  style={{
+                    background: "linear-gradient(135deg, #FBBF24, #DC2626, #FBBF24)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    filter: "drop-shadow(0 4px 8px rgba(251, 191, 36, 0.3)) drop-shadow(0 8px 16px rgba(220, 38, 38, 0.2))",
+                  }}
+                >
+                  Thank You!
+                </motion.h4>
+
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.6 }}
+                  className="text-amber-400 font-semibold text-lg"
+                >
+                  🎉 You're all set!
+                </motion.p>
+
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.7 }}
+                  className="text-gray-400 text-sm"
+                >
+                  {totalItems} ticket(s) for <strong className="text-white">{event.title}</strong> have been booked.
+                  <br />Check your email for confirmation details.
+                </motion.p>
+
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.9 }}
+                >
+                  <Button onClick={handleClose} className="bg-red-600 hover:bg-red-700 text-white font-bold px-8 rounded-full shadow-lg shadow-red-600/30 mt-2">
+                    Done
+                  </Button>
+                </motion.div>
+              </motion.div>
             ) : step === "confirm" ? (
               <div className="space-y-4">
                 <p className="text-sm text-muted-foreground">Review your order:</p>
