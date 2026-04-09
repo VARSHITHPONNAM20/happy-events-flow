@@ -50,7 +50,7 @@ const Auth = () => {
       if (error) {
         toast({ title: "Sign in failed", description: error.message, variant: "destructive" });
       } else {
-        navigate("/");
+        navigate("/events");
       }
     }
     setLoading(false);
