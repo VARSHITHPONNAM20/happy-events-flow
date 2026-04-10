@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import Navbar from "@/components/Navbar";
@@ -11,12 +11,14 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import {
   Ticket, Clock, MapPin, CreditCard, Gift, Bell, HelpCircle,
   Headphones, Mail, Phone, MessageCircle, ChevronRight, Star,
   Calendar, DollarSign, Shield, User, Settings as SettingsIcon, Film,
+  Plus, Trash2, QrCode, Smartphone, Scan, CheckCircle2, X,
 } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -334,51 +336,7 @@ const Settings = () => {
 
             {/* PAYMENT TAB */}
             <TabsContent value="payment">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <CreditCard className="h-5 w-5 text-primary" /> Payment Methods
-                  </CardTitle>
-                  <CardDescription>Manage your saved payment options</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  {/* Saved cards placeholder */}
-                  <div className="rounded-xl border-2 border-dashed border-border p-8 text-center space-y-3">
-                    <CreditCard className="h-10 w-10 text-muted-foreground/40 mx-auto" />
-                    <p className="text-muted-foreground">No saved payment methods</p>
-                    <Button
-                      variant="outline"
-                      onClick={() =>
-                        toast({ title: "Coming Soon", description: "Payment method management will be available soon." })
-                      }
-                    >
-                      Add Credit / Debit Card
-                    </Button>
-                  </div>
-
-                  <div className="space-y-3">
-                    <h4 className="font-semibold text-foreground">Accepted Payment Methods</h4>
-                    <div className="grid grid-cols-2 gap-3">
-                      {[
-                        { name: "Visa", icon: "💳" },
-                        { name: "Mastercard", icon: "💳" },
-                        { name: "Apple Pay", icon: "🍎" },
-                        { name: "Google Pay", icon: "📱" },
-                      ].map((method) => (
-                        <div key={method.name} className="flex items-center gap-2 p-3 rounded-lg border border-border">
-                          <span className="text-lg">{method.icon}</span>
-                          <span className="text-sm font-medium text-foreground">{method.name}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/20 text-xs text-muted-foreground">
-                    <Shield className="h-4 w-4 shrink-0" />
-                    All transactions are encrypted and secured with SSL
-                  </div>
-                </CardContent>
-              </Card>
+              <PaymentTab toast={toast} />
             </TabsContent>
 
             {/* LOCATION TAB */}
