@@ -159,7 +159,7 @@ export const movies: Movie[] = [
   },
   {
     id: "m7",
-    title: "Ustaad Bhagat Singh",
+    title: "ఉస్తాద్ భగత్ సింగ్",
     genre: "Action / Drama",
     rating: 7.9,
     duration: "2h 35m",
@@ -179,7 +179,7 @@ export const movies: Movie[] = [
   },
   {
     id: "m8",
-    title: "Bhartha Mahasayulaku Wignyapthi",
+    title: "భారత మహాశయులకు విజ్ఞప్తి",
     genre: "Drama / Political",
     rating: 7.5,
     duration: "2h 20m",
@@ -199,7 +199,7 @@ export const movies: Movie[] = [
   },
   {
     id: "m9",
-    title: "Vishnu Vinyasam",
+    title: "విష్ణు విన్యాసం",
     genre: "Comedy / Adventure",
     rating: 7.3,
     duration: "2h 10m",
@@ -219,7 +219,7 @@ export const movies: Movie[] = [
   },
   {
     id: "m10",
-    title: "Couple Friendly",
+    title: "కపుల్ ఫ్రెండ్లీ",
     genre: "Romance / Comedy",
     rating: 7.1,
     duration: "2h 05m",
@@ -239,7 +239,7 @@ export const movies: Movie[] = [
   },
   {
     id: "m11",
-    title: "Mrithyunjay",
+    title: "మృత్యుంజయ్",
     genre: "Action / Mythology",
     rating: 8.4,
     duration: "2h 45m",
@@ -260,7 +260,7 @@ export const movies: Movie[] = [
   },
   {
     id: "m12",
-    title: "Sumathi Sathakam",
+    title: "సుమతీ శతకం",
     genre: "Drama / Family",
     rating: 8.0,
     duration: "2h 15m",
