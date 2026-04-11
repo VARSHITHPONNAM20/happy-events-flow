@@ -136,7 +136,7 @@ const EventDetail = () => {
                       </div>
                       <div className="text-right">
                         <div className="font-bold text-card-foreground">
-                          {tier.price === 0 ? "Free" : `$${tier.price}`}
+                          {tier.price === 0 ? "Free" : `₹${tier.price}`}
                         </div>
                         <div className="text-xs text-muted-foreground">{tier.available} left</div>
                       </div>
@@ -157,7 +157,7 @@ const EventDetail = () => {
                 <div>
                   <div className="text-sm text-muted-foreground">Starting from</div>
                   <div className="text-3xl font-extrabold text-card-foreground">
-                    {lowestPrice === 0 ? "Free" : `$${lowestPrice}`}
+                    {lowestPrice === 0 ? "Free" : `₹${lowestPrice}`}
                   </div>
                 </div>
 
