@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Minus, Plus, Check, Ticket } from "lucide-react";
+import { X, Minus, Plus, Check, Ticket, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { type Event, type TicketTier } from "@/data/events";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import FakeUPIQR from "./FakeUPIQR";
 
 interface BookingModalProps {
   event: Event;
@@ -15,7 +16,7 @@ interface BookingModalProps {
 
 const BookingModal = ({ event, open, onClose }: BookingModalProps) => {
   const [quantities, setQuantities] = useState<Record<string, number>>({});
-  const [step, setStep] = useState<"select" | "confirm" | "success">("select");
+  const [step, setStep] = useState<"select" | "confirm" | "payment" | "success">("select");
   const [bookingLoading, setBookingLoading] = useState(false);
   const { toast } = useToast();
   const { user } = useAuth();
@@ -31,7 +32,7 @@ const BookingModal = ({ event, open, onClose }: BookingModalProps) => {
   const totalItems = Object.values(quantities).reduce((a, b) => a + b, 0);
   const totalPrice = event.tickets.reduce((sum, t) => sum + (quantities[t.id] || 0) * t.price, 0);
 
-  const handleConfirm = async () => {
+  const handlePaymentComplete = async () => {
     if (!user) {
       toast({ title: "Please sign in", description: "You need to be signed in to book tickets.", variant: "destructive" });
       return;
@@ -76,7 +77,6 @@ const BookingModal = ({ event, open, onClose }: BookingModalProps) => {
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        {/* Overlay */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -85,17 +85,15 @@ const BookingModal = ({ event, open, onClose }: BookingModalProps) => {
           onClick={handleClose}
         />
 
-        {/* Modal */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           className="relative w-full max-w-lg rounded-2xl border border-border bg-card shadow-2xl overflow-hidden"
         >
-          {/* Header */}
           <div className="flex items-center justify-between border-b border-border px-6 py-4">
             <h3 className="font-bold text-lg text-card-foreground">
-              {step === "success" ? "Booking Confirmed" : "Select Tickets"}
+              {step === "success" ? "Booking Confirmed" : step === "payment" ? "Payment" : "Select Tickets"}
             </h3>
             <Button variant="ghost" size="icon" onClick={handleClose}>
               <X className="h-4 w-4" />
@@ -156,6 +154,22 @@ const BookingModal = ({ event, open, onClose }: BookingModalProps) => {
                   <br />Check your email for confirmation details.
                 </motion.p>
 
+                {/* Location info */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.8 }}
+                  className="rounded-lg border border-border bg-muted/20 p-3 text-left inline-block"
+                >
+                  <div className="flex items-center gap-2 text-sm">
+                    <MapPin className="h-4 w-4 text-primary shrink-0" />
+                    <div>
+                      <p className="font-semibold text-card-foreground">{event.venue}</p>
+                      <p className="text-xs text-muted-foreground">{event.location}</p>
+                    </div>
+                  </div>
+                </motion.div>
+
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -166,6 +180,12 @@ const BookingModal = ({ event, open, onClose }: BookingModalProps) => {
                   </Button>
                 </motion.div>
               </motion.div>
+            ) : step === "payment" ? (
+              <FakeUPIQR
+                amount={totalPrice}
+                onPaymentComplete={handlePaymentComplete}
+                onBack={() => setStep("confirm")}
+              />
             ) : step === "confirm" ? (
               <div className="space-y-4">
                 <p className="text-sm text-muted-foreground">Review your order:</p>
@@ -201,14 +221,14 @@ const BookingModal = ({ event, open, onClose }: BookingModalProps) => {
           </div>
 
           {/* Footer */}
-          {step !== "success" && (
+          {step !== "success" && step !== "payment" && (
             <div className="border-t border-border px-6 py-4 flex items-center justify-between">
               {step === "confirm" ? (
                 <>
                   <Button variant="ghost" onClick={() => setStep("select")} disabled={bookingLoading}>Back</Button>
-                  <Button onClick={handleConfirm} disabled={bookingLoading} className="bg-accent text-accent-foreground hover:bg-accent/90">
+                  <Button onClick={() => setStep("payment")} className="bg-accent text-accent-foreground hover:bg-accent/90">
                     <Ticket className="mr-2 h-4 w-4" />
-                    {bookingLoading ? "Booking..." : "Confirm Booking"}
+                    Proceed to Pay
                   </Button>
                 </>
               ) : (
