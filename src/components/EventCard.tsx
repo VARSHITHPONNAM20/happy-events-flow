@@ -54,7 +54,7 @@ const EventCard = ({ event, index = 0 }: EventCardProps) => {
 
             <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between">
               <div className="text-sm font-semibold text-primary-foreground">
-                {lowestPrice === 0 ? "Free" : `From $${lowestPrice}`}
+                {lowestPrice === 0 ? "Free" : `From ₹${lowestPrice}`}
               </div>
               <div className="flex items-center gap-1 text-xs text-primary-foreground/80">
                 <Users className="h-3 w-3" />
