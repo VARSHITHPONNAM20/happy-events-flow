@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, Star, Clock, Calendar, Globe, Film, Users, Ticket } from "lucide-react";
+import { ArrowLeft, Star, Clock, Calendar, Globe, Film, Users, Ticket, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SeatSelection from "@/components/SeatSelection";
+import FakeUPIQR from "@/components/FakeUPIQR";
 import { movies, type ShowTime } from "@/data/movies";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -17,7 +18,7 @@ const MovieDetail = () => {
   const movie = movies.find((m) => m.id === id);
   const [selectedShow, setSelectedShow] = useState<ShowTime | null>(null);
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
-  const [step, setStep] = useState<"showtime" | "seats" | "confirmed">("showtime");
+  const [step, setStep] = useState<"showtime" | "seats" | "payment" | "confirmed">("showtime");
   const [bookingLoading, setBookingLoading] = useState(false);
   const { toast } = useToast();
   const { user } = useAuth();
@@ -34,7 +35,9 @@ const MovieDetail = () => {
     );
   }
 
-  const handleConfirmBooking = async () => {
+  const totalPrice = selectedSeats.length * (selectedShow?.price || 0);
+
+  const handlePaymentComplete = async () => {
     if (!user) {
       toast({ title: "Please sign in", description: "You need to sign in to book tickets.", variant: "destructive" });
       return;
@@ -60,8 +63,6 @@ const MovieDetail = () => {
       description: `${selectedSeats.length} seat(s) booked for ${movie.title} at ${selectedShow?.time}`,
     });
   };
-
-  const totalPrice = selectedSeats.length * (selectedShow?.price || 0);
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -143,7 +144,6 @@ const MovieDetail = () => {
                   className="rounded-xl border border-amber-500/30 bg-gradient-to-b from-gray-900 to-black p-10 text-center space-y-5 overflow-hidden relative"
                   style={{ perspective: "1000px" }}
                 >
-                  {/* Decorative glow */}
                   <div className="absolute inset-0 bg-gradient-to-r from-red-600/10 via-amber-500/10 to-red-600/10 pointer-events-none" />
                   
                   <motion.div
@@ -195,6 +195,22 @@ const MovieDetail = () => {
                     <p className="text-2xl font-extrabold text-amber-400 mt-3">Total: ₹{totalPrice}</p>
                   </motion.div>
 
+                  {/* Location saved info */}
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.8 }}
+                    className="rounded-lg border border-amber-500/20 bg-amber-500/5 p-3 text-left inline-block"
+                  >
+                    <div className="flex items-center gap-2 text-sm">
+                      <MapPin className="h-4 w-4 text-amber-400 shrink-0" />
+                      <div>
+                        <p className="font-semibold text-white">Cinema Hall - Screen 1</p>
+                        <p className="text-xs text-gray-400">📍 Location saved to your bookings</p>
+                      </div>
+                    </div>
+                  </motion.div>
+
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -206,6 +222,14 @@ const MovieDetail = () => {
                     </Button>
                   </motion.div>
                 </motion.div>
+              ) : step === "payment" ? (
+                <div className="rounded-xl border border-border bg-card p-6">
+                  <FakeUPIQR
+                    amount={totalPrice}
+                    onPaymentComplete={handlePaymentComplete}
+                    onBack={() => setStep("seats")}
+                  />
+                </div>
               ) : step === "seats" ? (
                 <div className="space-y-6">
                   <div className="flex items-center justify-between">
@@ -239,12 +263,11 @@ const MovieDetail = () => {
                       </div>
                       <Button
                         size="lg"
-                        onClick={handleConfirmBooking}
-                        disabled={bookingLoading}
+                        onClick={() => setStep("payment")}
                         className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg"
                       >
                         <Ticket className="mr-2 h-4 w-4" />
-                        {bookingLoading ? "Booking..." : "Confirm Booking"}
+                        Proceed to Pay
                       </Button>
                     </motion.div>
                   )}
