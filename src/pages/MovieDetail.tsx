@@ -192,7 +192,7 @@ const MovieDetail = () => {
                     <p className="text-gray-400">
                       Seats: <strong className="text-amber-400">{selectedSeats.join(", ")}</strong>
                     </p>
-                    <p className="text-2xl font-extrabold text-amber-400 mt-3">Total: ${totalPrice}</p>
+                    <p className="text-2xl font-extrabold text-amber-400 mt-3">Total: ₹{totalPrice}</p>
                   </motion.div>
 
                   <motion.div
@@ -218,7 +218,7 @@ const MovieDetail = () => {
                   <div className="rounded-xl border border-border bg-card p-6">
                     <div className="text-center mb-4">
                       <Badge className="bg-primary text-primary-foreground">
-                        {selectedShow?.time} • {selectedShow?.format} • ${selectedShow?.price}/seat
+                        {selectedShow?.time} • {selectedShow?.format} • ₹{selectedShow?.price}/seat
                       </Badge>
                     </div>
 
@@ -235,7 +235,7 @@ const MovieDetail = () => {
                         <p className="text-sm text-muted-foreground">
                           {selectedSeats.length} seat(s): {selectedSeats.join(", ")}
                         </p>
-                        <p className="text-2xl font-extrabold text-accent">${totalPrice}</p>
+                        <p className="text-2xl font-extrabold text-accent">₹{totalPrice}</p>
                       </div>
                       <Button
                         size="lg"
@@ -273,7 +273,7 @@ const MovieDetail = () => {
                         </div>
                         <div className="flex items-center gap-2 mt-1">
                           <Badge variant="outline" className="text-[10px]">{show.format}</Badge>
-                          <span className="text-sm font-semibold text-accent">${show.price}</span>
+                          <span className="text-sm font-semibold text-accent">₹{show.price}</span>
                         </div>
                       </motion.button>
                     ))}

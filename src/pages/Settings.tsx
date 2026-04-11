@@ -414,7 +414,7 @@ const Settings = () => {
                               </p>
                             </div>
                             <div className="text-right shrink-0">
-                              <p className="font-bold text-foreground">${booking.total_price}</p>
+                              <p className="font-bold text-foreground">₹{booking.total_price}</p>
                               <Badge
                                 variant={booking.status === "confirmed" ? "default" : "secondary"}
                                 className="text-xs"
@@ -472,7 +472,7 @@ const Settings = () => {
                               </p>
                             </div>
                             <div className="text-right shrink-0">
-                              <p className="font-bold text-foreground">${mb.total_price}</p>
+                              <p className="font-bold text-foreground">₹{mb.total_price}</p>
                               <Badge
                                 variant={mb.status === "confirmed" ? "default" : "secondary"}
                                 className="text-xs"

@@ -177,12 +177,12 @@ const BookingModal = ({ event, open, onClose }: BookingModalProps) => {
                         <div className="font-medium text-card-foreground text-sm">{t.name}</div>
                         <div className="text-xs text-muted-foreground">× {quantities[t.id]}</div>
                       </div>
-                      <div className="font-semibold text-card-foreground">${(quantities[t.id] || 0) * t.price}</div>
+                      <div className="font-semibold text-card-foreground">₹{(quantities[t.id] || 0) * t.price}</div>
                     </div>
                   ))}
                 <div className="flex justify-between items-center pt-2 text-lg font-bold text-card-foreground">
                   <span>Total</span>
-                  <span>${totalPrice}</span>
+                  <span>₹{totalPrice}</span>
                 </div>
               </div>
             ) : (
@@ -214,7 +214,7 @@ const BookingModal = ({ event, open, onClose }: BookingModalProps) => {
               ) : (
                 <>
                   <div className="text-sm text-muted-foreground">
-                    {totalItems > 0 && <span className="font-semibold text-card-foreground">${totalPrice}</span>}
+                    {totalItems > 0 && <span className="font-semibold text-card-foreground">₹{totalPrice}</span>}
                   </div>
                   <Button
                     disabled={totalItems === 0}
@@ -250,7 +250,7 @@ const TicketRow = ({
       </div>
       <div className="text-right">
         <div className="font-bold text-card-foreground">
-          {tier.price === 0 ? "Free" : `$${tier.price}`}
+          {tier.price === 0 ? "Free" : `₹${tier.price}`}
         </div>
         <div className="text-xs text-muted-foreground">{tier.available} left</div>
       </div>
