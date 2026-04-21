@@ -568,39 +568,7 @@ const Settings = () => {
 
             {/* LOCATION TAB */}
             <TabsContent value="location">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <MapPin className="h-5 w-5 text-primary" /> Location Settings
-                  </CardTitle>
-                  <CardDescription>Set your location to discover nearby events</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="space-y-2">
-                    <Label>Your City</Label>
-                    <Input placeholder="e.g. Los Angeles, CA" />
-                  </div>
-                  <div className="space-y-3">
-                    <h4 className="font-semibold text-foreground">Popular Locations</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {["Los Angeles, CA", "New York, NY", "San Francisco, CA", "Chicago, IL", "Austin, TX", "Portland, OR"].map(
-                        (city) => (
-                          <Badge key={city} variant="outline" className="cursor-pointer hover:bg-primary/10 transition-colors">
-                            <MapPin className="h-3 w-3 mr-1" /> {city}
-                          </Badge>
-                        )
-                      )}
-                    </div>
-                  </div>
-                  <Button
-                    variant="outline"
-                    className="w-full"
-                    onClick={() => toast({ title: "Location Saved", description: "Your location preferences have been updated." })}
-                  >
-                    Save Location
-                  </Button>
-                </CardContent>
-              </Card>
+              <LocationTab />
             </TabsContent>
 
             {/* HELP & SUPPORT TAB */}
