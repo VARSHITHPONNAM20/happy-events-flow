@@ -10,6 +10,7 @@ import movieTelugu3 from "@/assets/movie-telugu-3.jpg";
 import movieTelugu4 from "@/assets/movie-telugu-4.jpg";
 import movieTelugu5 from "@/assets/movie-telugu-5.jpg";
 import movieTelugu6 from "@/assets/movie-telugu-6.jpg";
+import movieTelugu7 from "@/assets/movie-telugu-7.jpg";
 
 export interface ShowTime {
   id: string;
