@@ -10,6 +10,7 @@ import movieTelugu3 from "@/assets/movie-telugu-3.jpg";
 import movieTelugu4 from "@/assets/movie-telugu-4.jpg";
 import movieTelugu5 from "@/assets/movie-telugu-5.jpg";
 import movieTelugu6 from "@/assets/movie-telugu-6.jpg";
+import movieTelugu7 from "@/assets/movie-telugu-7.jpg";
 
 export interface ShowTime {
   id: string;
@@ -276,6 +277,26 @@ export const movies: Movie[] = [
       { id: "s49", time: "1:30 PM", format: "2D", price: 150 },
       { id: "s50", time: "5:00 PM", format: "2D", price: 200 },
       { id: "s51", time: "8:30 PM", format: "2D", price: 200 },
+    ],
+  },
+  {
+    id: "m13",
+    title: "Lenin",
+    genre: "Political / Drama",
+    rating: 8.2,
+    duration: "2h 30m",
+    language: "Telugu",
+    certificate: "UA",
+    poster: movieTelugu7,
+    description: "A fiery political drama about a revolutionary leader who rises from the masses to challenge the establishment and fight for the oppressed.",
+    director: "Vamsi Paidipally",
+    cast: ["Mahesh Babu", "Keerthy Suresh", "Prakash Raj"],
+    releaseDate: "2026-04-22",
+    showTimes: [
+      { id: "s52", time: "10:15 AM", format: "2D", price: 180 },
+      { id: "s53", time: "1:45 PM", format: "2D", price: 200 },
+      { id: "s54", time: "5:15 PM", format: "2D", price: 250 },
+      { id: "s55", time: "8:45 PM", format: "2D", price: 250 },
     ],
   },
 ];
